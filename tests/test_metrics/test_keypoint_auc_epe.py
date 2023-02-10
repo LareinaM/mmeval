@@ -2,7 +2,7 @@
 import numpy as np
 from unittest import TestCase
 
-from mmeval.metrics import KeypointAUC
+from mmeval.metrics import KeypointAUC, KeypointEndPointError
 
 
 class TestKeypointAUCandEPE(TestCase):
@@ -45,3 +45,9 @@ class TestKeypointAUCandEPE(TestCase):
         auc_results = auc_metric(self.predictions, self.groundtruths)
         target = {'AUC@4': 0.375}
         self.assertDictEqual(auc_results, target)
+
+    def test_epe_evaluate(self):
+        """test EPE evaluation metric."""
+        epe_metric = KeypointEndPointError()
+        epe_results = epe_metric(self.predictions, self.groundtruths)
+        self.assertAlmostEqual(epe_results['EPE'], 11.5355339)
